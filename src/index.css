@@ -1,0 +1,745 @@
+:root {
+  --ink: #0a0a0a;
+  --line: #2b2b2b;
+  --paper: #f2f2f2;
+  --muted: #9b9b9b;
+
+  --gutter: clamp(20px, 5vw, 72px);
+  --max: 1280px;
+  --font: 'Archivo', system-ui, sans-serif;
+
+  color-scheme: dark;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: 88px;
+}
+
+body {
+  margin: 0;
+  background: var(--ink);
+  color: var(--paper);
+  font-family: var(--font);
+  font-size: 1.0625rem;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+}
+
+img {
+  display: block;
+  max-width: 100%;
+}
+
+a {
+  color: inherit;
+}
+
+:focus-visible {
+  outline: 3px solid var(--paper);
+  outline-offset: 3px;
+}
+
+h1,
+h2 {
+  margin: 0;
+  font-weight: 800;
+  font-stretch: 112%;
+  line-height: 1.02;
+  letter-spacing: -0.02em;
+  text-wrap: balance;
+}
+
+/* Encabezado */
+.header {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  display: flex;
+  align-items: center;
+  gap: 32px;
+  padding: 14px var(--gutter);
+  background: rgb(10 10 10 / 0.92);
+  backdrop-filter: blur(10px);
+  border-bottom: 1px solid var(--line);
+}
+.brand img {
+  height: 52px;
+  width: auto;
+}
+.nav {
+  display: flex;
+  gap: 28px;
+  margin-left: auto;
+}
+.nav a {
+  white-space: nowrap;
+  text-decoration: none;
+  color: var(--muted);
+  font-weight: 500;
+  transition: color 0.15s;
+}
+.nav a:hover {
+  color: var(--paper);
+}
+
+.nav a[aria-current='page'] {
+  color: var(--paper);
+}
+
+/* Imagen de ejemplo */
+.ph,
+.photo {
+  display: block;
+  width: 100%;
+  object-fit: cover;
+}
+.ph {
+  position: relative;
+  display: grid;
+  place-items: center;
+  background:
+    linear-gradient(to top right, transparent calc(50% - 0.5px), var(--line) 50%, transparent calc(50% + 0.5px)),
+    linear-gradient(to bottom right, transparent calc(50% - 0.5px), var(--line) 50%, transparent calc(50% + 0.5px)),
+    #161616;
+  border: 1px solid var(--line);
+}
+.ph span {
+  padding: 4px 10px;
+  background: #161616;
+  color: var(--muted);
+  font-size: 0.85rem;
+}
+
+/* Quiénes somos: escena a pantalla completa que queda fija mientras el scroll enciende el texto */
+:root {
+  --header-h: 81px;
+}
+.about {
+  --hi: clamp(300px, 56.25vw, 820px); /* alto de la imagen en pantallas chicas */
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  background: #bcbcbc;
+  color: var(--ink);
+}
+.about-img {
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  z-index: -2;
+  width: 100%;
+  height: var(--hi);
+  object-fit: cover;
+  object-position: 18% bottom;
+  filter: grayscale(1) brightness(1.1);
+  mask-image: linear-gradient(to bottom, transparent, #000 30%);
+}
+.about::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background: linear-gradient(to bottom, transparent 85%, var(--ink));
+}
+.about-copy {
+  max-width: var(--max);
+  margin: 0 auto;
+  padding: clamp(40px, 5vw, 72px) var(--gutter) calc(var(--hi) * 0.5 + 24px);
+}
+.about h1 {
+  font-size: clamp(2.6rem, 6vw, 4.2rem);
+}
+.about-copy p {
+  max-width: 34em;
+  margin: 20px 0 0;
+  color: #161616;
+  font-size: 1.15rem;
+}
+.scrub p:first-child {
+  margin-top: 28px;
+}
+
+/* Escritorio: la escena ocupa toda la pantalla (la imagen queda quieta) y el texto va a la derecha */
+@media (min-width: 900px) {
+  .about {
+    height: calc(100svh - var(--header-h));
+  }
+  /* la imagen se agranda hacia arriba para recortar parte del cielo */
+  .about-img {
+    height: 139%;
+    object-position: 14% 100%;
+    mask-image: none;
+  }
+  .about-copy {
+    display: grid;
+    grid-template-columns: minmax(0, 48fr) minmax(0, 52fr);
+    align-content: start;
+    max-width: 1800px;
+    padding-top: clamp(20px, 4.5vh, 64px);
+    padding-bottom: 32px;
+  }
+  .about-copy > * {
+    grid-column: 2;
+  }
+  .about h1 {
+    font-size: clamp(2.4rem, min(4.8vw, 8vh), 6.5rem);
+    white-space: nowrap;
+  }
+  /* El título define el ancho del bloque; los párrafos quedan centrados debajo, con margen a ambos lados */
+  .about-text {
+    justify-self: center;
+    width: fit-content;
+    max-width: 100%;
+  }
+  .about-copy p {
+    width: 0;
+    min-width: 84%;
+    max-width: none;
+    margin-inline: auto;
+    margin-top: clamp(12px, 2.4vh, 24px);
+    font-size: clamp(1rem, min(1.4vw, 2.2vh), 1.5rem);
+  }
+  .scrub p:first-child {
+    margin-top: clamp(16px, 3.4vh, 32px);
+  }
+}
+
+/* Nuestros servicios (mosaicos) */
+.services-home {
+  max-width: var(--max);
+  margin: 0 auto;
+  padding: clamp(40px, 6vw, 88px) var(--gutter) clamp(56px, 8vw, 112px);
+  border-top: 1px solid var(--line);
+}
+.services-home h2 {
+  font-size: clamp(2rem, 4vw, 3.4rem);
+}
+.tiles {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: clamp(16px, 2.5vw, 32px);
+  margin: clamp(28px, 4vw, 48px) 0 0;
+  padding: 0;
+  list-style: none;
+}
+.tile {
+  display: block;
+  text-decoration: none;
+}
+.tile-panel {
+  position: relative;
+  display: grid;
+  place-items: center;
+  aspect-ratio: 16 / 10;
+  overflow: hidden;
+  background:
+    radial-gradient(circle at var(--gx, 50%) var(--gy, 50%), rgb(255 255 255 / 0.13), transparent 55%),
+    #121212;
+  border: 1px solid var(--line);
+  transform: perspective(900px) rotateX(var(--rx, 0deg)) rotateY(var(--ry, 0deg));
+  transition: transform 0.25s ease-out, border-color 0.2s;
+}
+.tile.is-active .tile-panel {
+  border-color: #6a6a6a;
+}
+.tile-icon {
+  width: clamp(96px, 38%, 170px);
+  color: var(--paper);
+}
+.svc-icon {
+  display: block;
+  width: 100%;
+  height: auto;
+  overflow: visible;
+}
+.tile-title {
+  position: relative;
+  display: block;
+  margin-top: 14px;
+  padding-bottom: 12px;
+  font-size: 1.4rem;
+  font-weight: 700;
+  font-stretch: 106%;
+  line-height: 1.2;
+}
+.tile-title::before,
+.tile-title::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 1px;
+  background: var(--line);
+}
+.tile-title::after {
+  background: var(--paper);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.5s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+.tile.is-active .tile-title::after,
+.tile:focus-visible .tile-title::after {
+  transform: scaleX(1);
+}
+
+/* Íconos animados: completos en reposo, se redibujan al activarse el mosaico */
+.svc-icon {
+  --ease: cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+.svc-icon .ic-frame {
+  stroke-width: 2;
+  opacity: 0.45;
+}
+.svc-icon .ic-box {
+  stroke-width: 2.5;
+}
+.svc-icon .ic-bar {
+  fill: currentColor;
+  stroke: none;
+  opacity: 0.55;
+  transform-box: fill-box;
+  transform-origin: 0 50%;
+}
+.svc-icon .ic-bar--main {
+  opacity: 1;
+}
+.is-active .ic-bar {
+  animation: bar-grow 0.9s var(--ease) both;
+  animation-delay: calc(var(--k, 0) * 0.2s);
+}
+.svc-icon .ic-tick {
+  stroke-width: 3;
+  stroke-dasharray: 16;
+}
+.is-active .ic-tick {
+  animation: draw 0.4s ease-out both;
+  animation-delay: calc(var(--k, 0) * 0.2s + 0.7s);
+}
+.svc-icon .ic-ballot {
+  transform-box: view-box;
+}
+.is-active .ic-ballot {
+  animation: ballot-drop 1.1s cubic-bezier(0.5, 0, 0.9, 0.6) both;
+}
+.svc-icon .ic-vote {
+  stroke-width: 4;
+  stroke-dasharray: 60;
+}
+.is-active .ic-vote {
+  animation: draw-long 0.5s ease-out 1s both;
+}
+.is-active .ic-slot {
+  animation: slot-flash 1.1s ease-out both;
+}
+.svc-icon .ic-wave {
+  opacity: 0.55;
+}
+.svc-icon .ic-mega {
+  transform-box: view-box;
+  transform-origin: 36px 60px;
+}
+.is-active .ic-mega {
+  animation: mega-shake 0.5s ease-in-out infinite alternate;
+}
+.is-active .ic-wave {
+  animation: wave 1.3s ease-out infinite;
+  animation-delay: calc(var(--k, 0) * 0.22s);
+}
+.svc-icon .ic-col {
+  fill: currentColor;
+  stroke: none;
+  transform-box: fill-box;
+  transform-origin: 50% 100%;
+}
+.svc-icon .ic-ped,
+.svc-icon .ic-flag,
+.svc-icon .ic-pole {
+  transform-box: view-box;
+}
+.is-active .ic-col {
+  animation: col-up 0.6s var(--ease) both;
+  animation-delay: calc(var(--k, 0) * 0.12s);
+}
+.is-active .ic-ped,
+.is-active .ic-ent {
+  animation: drop-in 0.6s var(--ease) 0.5s both;
+}
+.is-active .ic-flag {
+  animation:
+    flag-raise 0.7s var(--ease) 0.9s both,
+    flag-wave 1.2s ease-in-out 1.6s infinite alternate;
+  transform-origin: 60px 11px;
+}
+
+@keyframes bar-grow {
+  from {
+    transform: scaleX(0);
+  }
+  to {
+    transform: scaleX(1);
+  }
+}
+@keyframes draw {
+  from {
+    stroke-dashoffset: 16;
+  }
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+@keyframes draw-long {
+  from {
+    stroke-dashoffset: 60;
+  }
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+@keyframes ballot-drop {
+  from {
+    transform: translateY(-34px);
+  }
+  to {
+    transform: translateY(48px);
+  }
+}
+@keyframes slot-flash {
+  0%,
+  45% {
+    opacity: 1;
+  }
+  60% {
+    opacity: 0.3;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+@keyframes mega-shake {
+  from {
+    transform: rotate(-4deg);
+  }
+  to {
+    transform: rotate(3deg);
+  }
+}
+@keyframes wave {
+  0% {
+    opacity: 0;
+    transform: translateX(-6px);
+  }
+  35% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+    transform: translateX(8px);
+  }
+}
+@keyframes col-up {
+  from {
+    transform: scaleY(0);
+  }
+  to {
+    transform: scaleY(1);
+  }
+}
+@keyframes drop-in {
+  from {
+    opacity: 0;
+    transform: translateY(-16px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+@keyframes flag-raise {
+  from {
+    transform: translateY(30px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+@keyframes flag-wave {
+  from {
+    transform: skewY(-8deg) scaleX(1);
+  }
+  to {
+    transform: skewY(8deg) scaleX(0.9);
+  }
+}
+
+/* Títulos: las palabras suben desde una máscara */
+.roll .rw {
+  display: inline-block;
+  overflow: hidden;
+  vertical-align: top;
+  padding: 0.1em 0.04em 0.16em;
+  margin: -0.1em -0.04em -0.16em;
+}
+.roll .rw-in {
+  display: inline-block;
+  transform: translateY(115%);
+  transition: transform 1s cubic-bezier(0.2, 0.8, 0.2, 1);
+  transition-delay: calc(var(--i, 0) * 0.1s + 0.1s);
+}
+.roll.in .rw-in {
+  transform: none;
+}
+
+/* Párrafos: las palabras aparecen en cadena */
+.words .w {
+  display: inline-block;
+  opacity: 0;
+  transform: translateY(0.5em);
+  filter: blur(4px);
+  transition:
+    opacity 0.7s ease,
+    transform 0.7s cubic-bezier(0.2, 0.8, 0.2, 1),
+    filter 0.7s ease;
+  transition-delay: calc(var(--i, 0) * 0.025s + 0.5s);
+}
+.words.in .w {
+  opacity: 1;
+  transform: none;
+  filter: none;
+}
+
+/* Bloques que se descubren al entrar en pantalla */
+.rv {
+  opacity: 0;
+  transform: translateY(40px);
+  transition:
+    opacity 0.7s ease,
+    transform 1s cubic-bezier(0.2, 0.8, 0.2, 1);
+  transition-delay: var(--delay, 0s);
+}
+.rv.in {
+  opacity: 1;
+  transform: none;
+}
+
+/* Cambio de pantalla */
+.page-in {
+  animation: page-in 0.6s ease-out both;
+}
+@keyframes page-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+/* Subrayado animado del menú */
+.nav a {
+  position: relative;
+}
+.nav a::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: -4px;
+  height: 1.5px;
+  background: currentColor;
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.35s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+.nav a:hover::after,
+.nav a[aria-current='page']::after {
+  transform: scaleX(1);
+}
+
+/* Escenario del ícono animado en cada pantalla de servicio */
+.stage {
+  display: grid;
+  place-items: center;
+  aspect-ratio: 21 / 9;
+  min-height: 220px;
+  background:
+    radial-gradient(circle at 50% 50%, rgb(255 255 255 / 0.1), transparent 60%),
+    #121212;
+  border: 1px solid var(--line);
+  color: var(--paper);
+}
+.stage-icon {
+  width: clamp(110px, 24%, 240px);
+}
+
+/* Pantallas internas */
+.page {
+  max-width: 960px;
+  margin: 0 auto;
+  padding: clamp(32px, 5vw, 64px) var(--gutter) clamp(56px, 8vw, 112px);
+}
+.page h1 {
+  margin: 20px 0 clamp(24px, 4vw, 40px);
+  font-size: clamp(2.2rem, 5vw, 4rem);
+}
+.back {
+  color: var(--muted);
+  font-weight: 500;
+  text-underline-offset: 4px;
+}
+.back:hover {
+  color: var(--paper);
+}
+.page .services,
+.page .methods {
+  margin-top: clamp(32px, 5vw, 56px);
+}
+.others {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px 32px;
+  margin-top: clamp(40px, 6vw, 72px);
+  padding-top: 24px;
+  border-top: 1px solid var(--line);
+}
+.others a {
+  color: var(--muted);
+  font-weight: 600;
+  text-underline-offset: 4px;
+}
+.others a:hover {
+  color: var(--paper);
+}
+
+.services {
+  margin: 0;
+}
+.service {
+  padding: 28px 0;
+  border-top: 1px solid var(--line);
+}
+.service:first-child {
+  padding-top: 0;
+  border-top: 0;
+}
+.service dt {
+  font-size: 1.35rem;
+  font-weight: 700;
+  font-stretch: 106%;
+  line-height: 1.2;
+}
+.service dd {
+  max-width: 38em;
+  margin: 10px 0 0;
+  color: var(--muted);
+}
+
+.service dd a {
+  color: var(--paper);
+  text-underline-offset: 4px;
+}
+.service dd a:hover {
+  color: var(--muted);
+}
+
+.methods {
+  display: grid;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.methods li {
+  padding: 20px 0;
+  border-top: 1px solid var(--line);
+  font-size: clamp(1.4rem, 2.6vw, 2.1rem);
+  font-weight: 700;
+  font-stretch: 108%;
+  letter-spacing: -0.01em;
+}
+.methods li:first-child {
+  padding-top: 0;
+  border-top: 0;
+}
+
+/* Pie */
+.footer {
+  padding: 32px var(--gutter);
+}
+.footer img {
+  height: 64px;
+  width: auto;
+}
+
+
+@media (max-width: 640px) {
+  :root {
+    --header-h: 73px;
+  }
+  .header {
+    gap: 16px;
+  }
+  .brand img {
+    height: 44px;
+  }
+  .nav {
+    gap: 16px;
+    font-size: 0.9rem;
+  }
+  .tiles {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .tile-panel {
+    aspect-ratio: 3 / 2;
+  }
+  .tile-icon {
+    width: 46%;
+    max-width: 190px;
+  }
+  .stage {
+    aspect-ratio: 3 / 2;
+    min-height: 0;
+  }
+  .stage-icon {
+    width: 46%;
+    max-width: 190px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  .roll .rw-in,
+  .rv,
+  .words .w,
+  .tile-panel,
+  .tile-title::after,
+  .nav a::after {
+    transition: none;
+  }
+  .roll .rw-in,
+  .rv.in,
+  .rv,
+  .words .w {
+    transform: none;
+    opacity: 1;
+    filter: none;
+  }
+  .tile-panel {
+    transform: none;
+  }
+  .page-in,
+  .is-active .svc-icon *,
+  .stage .svc-icon * {
+    animation: none !important;
+  }
+}
